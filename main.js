@@ -1,3 +1,8 @@
+let pokemonActual = null;
+const listaFavoritosDiv = document.getElementById('lista-favoritos');
+function mostrarMensaje(mensaje) {
+    alert(mensaje);
+}
 function searchPokemon() {
     const busqueda = document.getElementById("boton-busqueda");
     let pokemonActual = {};
