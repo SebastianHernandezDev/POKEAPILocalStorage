@@ -5,7 +5,7 @@ function mostrarMensaje(mensaje) {
 }
 function searchPokemon() {
     const busqueda = document.getElementById("boton-busqueda");
-    let pokemonActual = {};
+
     busqueda.addEventListener("click", function (event) {
         event.preventDefault();
         const nombre = document.getElementById("pokemonNombre").value.toLowerCase();
