@@ -70,7 +70,7 @@ function guardarFavorito() {
  localStorage.setItem('pokemonFavoritos', JSON.stringify(favoritos));
 
 
-    mostrarMensaje('¡Pokémon añadido a favoritos!')};
+mostrarMensaje('¡Pokémon añadido a favoritos!')};
 function actualizarListaFavoritos() {
     const favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
     const listaFavoritosDiv = document.getElementById('lista-favoritos');
@@ -79,14 +79,30 @@ function actualizarListaFavoritos() {
         return;
     }
     listaFavoritosDiv.innerHTML = favoritos.map(pokemon => `
-        <div class="favorite-item">
+         <div class="favorite-item">
+            <button class="remove-btn" data-nombre="${pokemon.nombre}">×</button>
             <img src="${pokemon.imagen}" alt="${pokemon.nombre}">
-            <h4>${pokemon.nombre}</h4>
-            <p>ID: ${pokemon.id}</p>
-            <p>Tipo: ${pokemon.tipo}</p>
+            <h4>${pokemon.nombre.toUpperCase()}</h4>
+            <p class="pokemon-id">#${pokemon.id.toString().padStart(3, '0')}</p>
         </div>
     `).join('');
+    document.querySelectorAll('.remove-btn').forEach(boton => {
+        boton.addEventListener('click', function() {
+            eliminarFavorito(this.getAttribute('data-nombre'));
+        });
+    });
 }
+  
+function eliminarFavorito(nombrePokemon) {
+    let favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
+    
+    favoritos = favoritos.filter(pokemon => pokemon.nombre !== nombrePokemon);
+    
+    localStorage.setItem('pokemonFavoritos', JSON.stringify(favoritos));
+    actualizarListaFavoritos();
+    mostrarMensaje(`¡${nombrePokemon.toUpperCase()} eliminado de favoritos!`);
+}
+
 function guardarFavorito() {
     if (!pokemonActual) return;
     let favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
@@ -101,4 +117,4 @@ function guardarFavorito() {
     actualizarListaFavoritos();
 }
 actualizarListaFavoritos();
-    
+ 
