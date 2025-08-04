@@ -1,10 +1,10 @@
 function searchPokemon() {
     const busqueda = document.getElementById("boton-busqueda");
-    const nombre = document.getElementById("pokemonNombre").value.toLowerCase();
-    const url = `https://pokeapi.co/api/v2/pokemon/${nombre}`;
     let pokemonActual = {};
     busqueda.addEventListener("click", function (event) {
         event.preventDefault();
+        const nombre = document.getElementById("pokemonNombre").value.toLowerCase();
+        const url = `https://pokeapi.co/api/v2/pokemon/${nombre}`;
 
         fetch(url)
             .then(function (response) {
@@ -13,7 +13,7 @@ function searchPokemon() {
                 }
                 return response.json();
             })
-        then(function (data) {
+        .then(function (data) {
             pokemonActual = {
                 nombre: data.name,
                 id: data.id,
@@ -23,19 +23,27 @@ function searchPokemon() {
             mostrarPokemon(pokemonActual);
         })
             .catch(function (error) {
-                alert("¡Error! Pokémon no encontrado");
+                // Solo muestra la alerta si el error es por Pokémon no encontrado
+                if (error.message === "Pokémon no encontrado") {
+                    alert("¡Error! Pokémon no encontrado");
+                } else {
+                    console.error(error);
+                }
             });
     });
 }
 function mostrarPokemon(pokemon) {
+    const resultadoDiv = document.getElementById("resultado");
     resultadoDiv.innerHTML = `
         <div class="pokemon-card">
             <img src="${pokemon.imagen}" alt="${pokemon.nombre}">
             <h3>${pokemon.nombre}</h3>
             <p>ID: ${pokemon.id}</p>
+            <p>Tipo: ${pokemon.tipo}</p>    
             <button id="guardar-favorito">Guardar como favorito</button>
         </div>
     `;
 
     document.getElementById('guardar-favorito').addEventListener('click', guardarFavorito);
 }
+searchPokemon();
