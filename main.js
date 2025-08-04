@@ -52,3 +52,53 @@ function mostrarPokemon(pokemon) {
     document.getElementById('guardar-favorito').addEventListener('click', guardarFavorito);
 }
 searchPokemon();
+function guardarFavorito() {
+    if (!pokemonActual) return;
+    
+    
+    let favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
+    
+    
+    const yaEsFavorito = favoritos.some(p => p.id === pokemonActual.id);
+    
+    if (yaEsFavorito) {
+        mostrarMensaje('¡Este Pokémon ya está en tus favoritos!');
+        return;
+    }
+    favoritos.push(pokemonActual);
+
+ localStorage.setItem('pokemonFavoritos', JSON.stringify(favoritos));
+
+
+    mostrarMensaje('¡Pokémon añadido a favoritos!')};
+function actualizarListaFavoritos() {
+    const favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
+    const listaFavoritosDiv = document.getElementById('lista-favoritos');
+    if (favoritos.length === 0) {
+        listaFavoritosDiv.innerHTML = '<p class="no-favorites">No tienes Pokémon favoritos aún</p>';
+        return;
+    }
+    listaFavoritosDiv.innerHTML = favoritos.map(pokemon => `
+        <div class="favorite-item">
+            <img src="${pokemon.imagen}" alt="${pokemon.nombre}">
+            <h4>${pokemon.nombre}</h4>
+            <p>ID: ${pokemon.id}</p>
+            <p>Tipo: ${pokemon.tipo}</p>
+        </div>
+    `).join('');
+}
+function guardarFavorito() {
+    if (!pokemonActual) return;
+    let favoritos = JSON.parse(localStorage.getItem('pokemonFavoritos')) || [];
+    const yaEsFavorito = favoritos.some(p => p.id === pokemonActual.id);
+    if (yaEsFavorito) {
+        mostrarMensaje('¡Este Pokémon ya está en tus favoritos!');
+        return;
+    }
+    favoritos.push(pokemonActual);
+    localStorage.setItem('pokemonFavoritos', JSON.stringify(favoritos));
+    mostrarMensaje('¡Pokémon añadido a favoritos!');
+    actualizarListaFavoritos();
+}
+actualizarListaFavoritos();
+    
