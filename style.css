@@ -107,7 +107,7 @@ h2 {
     font-size: 1.5em;
 }
 
-/* Sección de favoritos */
+
 .contedor-favoritos {
     margin-top: 40px;
     padding: 20px;
@@ -123,7 +123,7 @@ h2 {
     margin-top: 20px;
 }
 
-/* Items de favoritos */
+
 .favorite-item {
     background-color: white;
     padding: 15px;
